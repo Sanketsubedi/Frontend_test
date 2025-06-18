@@ -1,28 +1,55 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Nav from './components/Nav';
-import Hero from './components/Hero';
-import Stack from './components/Stack';
-import Testo from './components/Testo';
-import Stats from './components/Stats';
-import Fotter from './components/Fotter';
-function App() {
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Fotter from "./components/Fotter";
+import SignUp from "../pages/SignUp";
+import Landing from "../pages/Landing";
+import SignIn from "../pages/SignIn";
+import Elections from "../pages/Elections";
+import AdminNav from "./components/AdminNav";
+import Dashboard from "../pages/Dashboard";
+import Result from "../pages/Result";
+import Notices from "../pages/Notices";
+import Vote from "../pages/Vote";
+import LearnMore from "../pages/LearnMore";
 
+function AppWrapper() {
+  const location = useLocation();
+
+  // Check if path starts with /admin
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
-    <Router>
-      <Nav/>
-      <Hero/>
-      <Stack/>
-      <Testo/>
-      <Stats/>
-      <Fotter/>
-      {/* <Routes>
-        <Route path='/' element={<Hero/>}/>
-        <Route path='/' element = {<Stack/>}/>
-      </Routes> */}
-    </Router>
-  )
+    <>
+      {!isAdminRoute ? <NavBar /> : <AdminNav />}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/election" element={<Elections />} />
+        <Route path="/admin" element={<Dashboard />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/notices" element={<Notices />} />
+        <Route path="/vote" element={<Vote />} />
+        <Route path="/learnmore" element={<LearnMore />} />
+      </Routes>
+
+      <Fotter />
+    </>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
+    </Router>
+  );
+}
+
+export default App;
